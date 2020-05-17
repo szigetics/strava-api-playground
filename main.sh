@@ -43,7 +43,7 @@ echo "ACCESS_TOKEN : $ACCESS_TOKEN"
 #echo "REFRESH_TOKEN : $REFRESH_TOKEN"
 #
 PS3='Which request to send? '
-options=("Current athlete" "List Activities" "Quit")
+options=("Current athlete" "List Activities" "Filter Activities" "Quit")
 select opt in "${options[@]}"
 do
     case $opt in
@@ -56,6 +56,11 @@ do
             echo "you chose $REPLY which is $opt"
             source listActivities.sh
             listActivities
+            ;;
+        "Filter Activities")
+            echo "you chose $REPLY which is $opt"
+            source filterActivities.sh
+            filterActivities
             ;;
         "Quit")
             exit 0
