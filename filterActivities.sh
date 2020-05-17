@@ -1,3 +1,14 @@
+function openInBrowser() {
+    local ACTIVITY_ID="$1"
+    
+    read -p "Would you like to open it on strava.com in your default browser? " -n 1 -r
+    echo    # (optional) move to a new line
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then
+        open "https://strava.com/activities/$ACTIVITY_ID"
+    fi
+}
+
 function filterActivities() {
     OUT_DIR="allActivities"
     OUT_FILE="all.json"
@@ -13,10 +24,12 @@ function filterActivities() {
     echo $LONGEST
     LONGEST_ID=$(echo $LONGEST | jq '.id')
     echo $LONGEST_ID
-    read -p "Would you like to open it on strava.com in your default browser? " -n 1 -r
-    echo    # (optional) move to a new line
-    if [[ $REPLY =~ ^[Yy]$ ]]
-    then
-        open "https://strava.com/activities/$LONGEST_ID"
-    fi
+    openInBrowser "$LONGEST_ID"
+    
+    echo "Activity with highest elevation : "
+    HIGHEST=$(jq '[ .[] ] | max_by(.elev_high)' "$OUT_DIR/$OUT_FILE")
+    echo $HIGHEST
+    HIGHEST_ID=$(echo $HIGHEST | jq '.id')
+    echo $HIGHEST_ID
+    openInBrowser "$HIGHEST_ID"
 }
