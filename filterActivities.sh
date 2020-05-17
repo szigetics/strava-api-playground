@@ -32,4 +32,11 @@ function filterActivities() {
     HIGHEST_ID=$(echo $HIGHEST | jq '.id')
     echo $HIGHEST_ID
     openInBrowser "$HIGHEST_ID"
+    
+    echo "Activity with max total elevation gain : "
+    MAX_ELEVATION_GAIN=$(jq '[ .[] ] | max_by(.total_elevation_gain)' "$OUT_DIR/$OUT_FILE")
+    echo $MAX_ELEVATION_GAIN
+    MAX_ELEVATION_GAIN_ID=$(echo $HIGHEST | jq '.id')
+    echo $MAX_ELEVATION_GAIN_ID
+    openInBrowser "$MAX_ELEVATION_GAIN_ID"
 }
