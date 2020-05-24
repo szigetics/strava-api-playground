@@ -8,10 +8,20 @@ function exportActivityToGPX() {
       return
   fi
   
+  if [ -f "activities/$ACTIVITY_ID/latlng.json" ];
+  then
+    echo "Activity ($ACTIVITY_ID) already downloaded"
+    return
+  fi
+  
+  mkdir -p "activities/$ACTIVITY_ID"
+  
   FULL_RESPONSE=$(curl     https://www.strava.com/api/v3/activities/${ACTIVITY_ID}/streams/latlng?access_token=${ACCESS_TOKEN} | python    -m json.tool)
   COUNT=$(echo $FULL_RESPONSE | jq '. | length')
   echo "GET activities/${ACTIVITY_ID}/streams/latlng?access_token=${ACCESS_TOKEN} FULL_RESPONSE : \n      $FULL_RESPONSE"
   echo "size : ${COUNT}"
+  
+  echo "$FULL_RESPONSE" > "activities/$ACTIVITY_ID/latlng.json"
   
   echo ""
 }
