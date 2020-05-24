@@ -23,5 +23,8 @@ function exportActivityToGPX() {
   
   echo "$FULL_RESPONSE" > "activities/$ACTIVITY_ID/latlng.json"
   
+  LAT_LNG_LIST=$(echo $FULL_RESPONSE | jq '.[] | select(.type == "latlng").data')
+  echo "LAT_LNG_LIST : $LAT_LNG_LIST"
+  
   echo ""
 }
