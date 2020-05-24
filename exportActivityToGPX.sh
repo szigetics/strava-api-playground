@@ -24,7 +24,8 @@ function exportActivityToGPX() {
   echo "$FULL_RESPONSE" > "activities/$ACTIVITY_ID/latlng.json"
   
   LAT_LNG_LIST=$(echo $FULL_RESPONSE | jq '.[] | select(.type == "latlng").data')
-  echo "LAT_LNG_LIST : $LAT_LNG_LIST"
+  echo "$LAT_LNG_LIST" | jq -r '.[] | join(", ")' > "activities/$ACTIVITY_ID/gpx.csv"
+  gpsbabel -i csv -f "activities/$ACTIVITY_ID/gpx.csv" -o gpx -F "activities/$ACTIVITY_ID/gpx.gpx"
   
   echo ""
 }
