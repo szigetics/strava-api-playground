@@ -1,6 +1,11 @@
 function listRoutes() {
   #GET /athletes/{ID}/routes
-  read -p 'Athlete ID : ' ATHLETE_ID
+#  read -p 'Athlete ID : ' ATHLETE_ID #Commented out, because : we cannot request routes from an another athlete. Routes must be added to the currently authorized athlete by starring them.
+
+  #GET /athlete
+  FULL_RESPONSE=$(curl https://www.strava.com/api/v3/athlete?access_token=${ACCESS_TOKEN} | python -m json.tool)
+  ATHLETE_ID=$(echo $FULL_RESPONSE | jq -r .id)
+  echo "Listing routes for self (athlete id : ${ATHLETE_ID})"
 
   OUT_DIR="allRoutes"
   rm -rf "$OUT_DIR"
