@@ -43,7 +43,7 @@ echo "ACCESS_TOKEN : $ACCESS_TOKEN"
 #echo "REFRESH_TOKEN : $REFRESH_TOKEN"
 #
 PS3='Which request to send? '
-options=("Current athlete" "List Activities" "Filter Activities" "Export Activity to GPX" "Quit")
+options=("Current athlete" "List Activities" "Filter Activities" "Export Activity to GPX" "List Routes" "Quit")
 select opt in "${options[@]}"
 do
     case $opt in
@@ -66,6 +66,11 @@ do
             echo "you chose $REPLY which is $opt"
             source exportActivityToGPX.sh
             exportActivityToGPX
+            ;;
+        "List Routes")
+            echo "you chose $REPLY which is $opt"
+            source listRoutes.sh
+            listRoutes
             ;;
         "Quit")
             exit 0
