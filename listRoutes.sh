@@ -46,4 +46,11 @@ function listRoutes() {
   popd #OUT_DIR
   
   echo ""
+  
+  echo "Exporting all routes to GPX : "
+  ALL_ROUTE_IDS=($(cat $OUT_DIR/$OUT_FILE | jq -r '.[].id'))
+  for ROUTE_ID in ${ALL_ROUTE_IDS[@]}; do
+    echo "Exporting route with id : ${ROUTE_ID} : to $OUT_DIR/$ROUTE_ID.gpx"
+    curl https://www.strava.com/api/v3/routes/${ROUTE_ID}/export_gpx?access_token=${ACCESS_TOKEN} -o "$OUT_DIR/$ROUTE_ID.gpx"
+  done
 }
